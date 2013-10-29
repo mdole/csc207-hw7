@@ -27,7 +27,8 @@ public class DoublyLinkedList<T> implements ListOf<T> {
     // ITERABLE METHODS
     @Override
     public Iterator<T> iterator() {
-	return null; // STUB
+	Iterator<T> it = new Iterator<T>();
+	return it;
     } // iterator()
 
     class DoublyLinkedListIterator<T> implements Iterator<T> {
@@ -51,8 +52,7 @@ public class DoublyLinkedList<T> implements ListOf<T> {
 
 	@Override
 	public void remove() {
-	    // TODO Auto-generated method stub
-
+	    return; // not implemented
 	}
 
     } // class DoublyLinkedListIterator
@@ -106,8 +106,9 @@ public class DoublyLinkedList<T> implements ListOf<T> {
 	dllc.pos = dllc.pos.prev;
     } // delete(Cursor<T>)
 
+    // do we want to initialize the cursor to the dummy?
     public Cursor<T> front() throws Exception {
-	if (this.front == null) {
+	if (this.front == this.dummy) {
 	    throw new NoSuchElementException("empty list");
 	}
 	Cursor<T> c = new DoublyLinkedListCursor<T>(this.front);
@@ -160,37 +161,64 @@ public class DoublyLinkedList<T> implements ListOf<T> {
     public void swap(Cursor<T> c1, Cursor<T> c2) throws Exception {
 	DoublyLinkedListCursor<T> dllc1 = (DoublyLinkedListCursor<T>) c1;
 	DoublyLinkedListCursor<T> dllc2 = (DoublyLinkedListCursor<T>) c2;
-
 	T tmp = dllc1.pos.val;
 	dllc1.pos.val = dllc2.pos.val;
 	dllc2.pos.val = tmp;
     } // swap(Cursor<T>, Cursor<T>)
 
+    // does this work using dllc or do we have to change back to c?
+    // basically, can things that take cursors take dllcS? I think so...
     public boolean search(Cursor<T> c, Predicate<T> pred) throws Exception {
 	DoublyLinkedListCursor<T> dllc = (DoublyLinkedListCursor<T>) c;
-	Node<T> tmpNode = dllc.pos;
-
-	while (this.hasNext(dllc)) {
+	Node<T> tempNode = dllc.pos;
+	while (this.hasNext(dllc) || dllc.pos == this.back) {
 	    if (pred.test(dllc.pos.val)) {
 		return true;
 	    }
 	    this.advance(dllc);
 	}
-	dllc.pos = tmpNode;
+	dllc.pos = tempNode;
 	return false;
     } // search(Cursor<T>, Predicate<T>)
 
+    // figure out how to deal with last element
     public ListOf<T> select(Predicate<T> pred) throws Exception {
-	throw new UnsupportedOperationException("STUB");
+	DoublyLinkedList<T> newlist = new DoublyLinkedList<T>();
+	Cursor<T> c = front();
+	DoublyLinkedListCursor<T> dllc = (DoublyLinkedListCursor<T>) c;
+	while (this.hasNext(dllc) || dllc.pos == this.back) {
+	    if (pred.test(dllc.pos.val)) {
+		newlist.append(dllc.pos.val);
+	    }
+	    this.advance(dllc);
+	}
+	return newlist;
     } // select(Predicate<T>)
 
-    public ListOf<T> subList(Cursor<T> start, Cursor<T> end) throws Exception {
-	throw new UnsupportedOperationException("STUB");
-    } // subList(Cursor<T>, Cursor<T>)
-
     public boolean precedes(Cursor<T> c1, Cursor<T> c2) throws Exception {
-	throw new UnsupportedOperationException("STUB");
+	DoublyLinkedListCursor<T> dllc1 = (DoublyLinkedListCursor<T>) c1;
+	DoublyLinkedListCursor<T> dllc2 = (DoublyLinkedListCursor<T>) c2;
+	while (this.hasNext(dllc1)) {
+	    if (dllc1.pos == dllc2.pos) {
+		return true;
+	    }
+	    this.advance(dllc1);
+	}
+	return false;
     } // precedes(Cursor<T>, Cursor<T>)
+
+    // user must check if the list is empty. assumes non-inclusive end.
+    public ListOf<T> subList(Cursor<T> start, Cursor<T> end) throws Exception {
+	DoublyLinkedList<T> newlist = new DoublyLinkedList<T>();
+	DoublyLinkedListCursor<T> dllc1 = (DoublyLinkedListCursor<T>) start;
+	DoublyLinkedListCursor<T> dllc2 = (DoublyLinkedListCursor<T>) end;
+	while (dllc1.pos != dllc2.pos) {
+	    newlist.append(dllc1.pos.val);
+	    this.advance(dllc1);
+	}
+	return newlist;
+    } // sublist(Cursor<T>, Cursor<T>)
+
 } // class DoublyLinkedList
 
 /**
