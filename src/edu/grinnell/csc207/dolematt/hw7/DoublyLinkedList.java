@@ -24,13 +24,6 @@ public class DoublyLinkedList<T> implements ListOf<T> {
 	this.back = this.dummy;
     } // DoublyLinkedList
 
-    // ITERABLE METHODS
-    @Override
-    public Iterator<T> iterator() {
-	Iterator<T> it = new Iterator<T>();
-	return it;
-    } // iterator()
-
     class DoublyLinkedListIterator<T> implements Iterator<T> {
 	Node<T> pos;
 
@@ -76,11 +69,13 @@ public class DoublyLinkedList<T> implements ListOf<T> {
     } // insert(T, Cursor<T>)
 
     public void append(T val) throws Exception {
+	Node<T> n = new Node<T>(val);
+	n.next = this.dummy;
+	this.dummy.prev = n;
 	if (this.front == this.dummy) {
-	    this.front = new Node<T>(val);
+	    this.front = n;
 	    this.back = this.front;
 	} else {
-	    Node<T> n = new Node<T>(val);
 	    this.back.next = n;
 	    n.prev = this.back;
 	    this.back = n;
@@ -88,13 +83,16 @@ public class DoublyLinkedList<T> implements ListOf<T> {
     } // append(T)
 
     public void prepend(T val) throws Exception {
-	if (this.front == null) {
-	    this.front = new Node<T>(val);
+	Node<T> n = new Node<T>(val);
+	this.dummy.next = n;
+	n.prev = this.dummy;
+	if (this.dummy == this.front) {
+	    this.front = n;
 	    this.back = this.front;
-	} else {
-	    Node<T> n = new Node<T>(val);
-	    this.front.prev = n;
+	}
+	else {
 	    n.next = this.front;
+	    this.front.prev = n;
 	    this.front = n;
 	}
     } // prepend(T)
@@ -251,5 +249,6 @@ class DoublyLinkedListCursor<T> implements Cursor<T> {
     public DoublyLinkedListCursor(Node<T> pos) {
 	this.pos = pos;
     } // DoublyLinkedListCursor<T>
+
 } // DoublyLinkedListCursor<T>
 
