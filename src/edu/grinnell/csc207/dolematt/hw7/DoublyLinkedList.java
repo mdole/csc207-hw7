@@ -4,11 +4,13 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * Doubly linked lists.
+ * Doubly linked lists class.
  * 
  * Citations: Code generously shared by Daniel, Earnest, and Mark after Matt
  * failed. Samuel A. Rebelsky also said it was okay.
  */
+ 
+ //GO OVER ALL THE CODE TO MAKE SURE IT MATCHES THE DOCUMENTATION IN ListOf
 public class DoublyLinkedList<T> implements ListOf<T> {
 
     // FIELDS
@@ -98,12 +100,16 @@ public class DoublyLinkedList<T> implements ListOf<T> {
 	return c;
     } // front()
 
+    
     public void advance(Cursor<T> c) throws Exception {
-	DoublyLinkedListCursor<T> dllc = (DoublyLinkedListCursor<T>) c;
-	if (this.hasNext(dllc)) {
-	    dllc.pos = dllc.pos.next;
-	}
-    } // advance(Cursor<T>)
+        DoublyLinkedListCursor<T> dllc = (DoublyLinkedListCursor<T>) c;
+        if (this.hasNext(dllc)) {
+            dllc.pos = dllc.pos.next;
+        } else {
+          throw new NoSuchElementException("at end of list");
+        }
+         
+      } // advance(Cursor<T>)
 
     public void retreat(Cursor<T> c) throws Exception {
 	DoublyLinkedListCursor<T> dllc = (DoublyLinkedListCursor<T>) c;
