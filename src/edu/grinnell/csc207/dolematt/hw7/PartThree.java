@@ -1,46 +1,12 @@
 package edu.grinnell.csc207.dolematt.hw7;
 
+import java.io.PrintWriter;
 import java.util.Calendar;
 
 import edu.grinnell.glimmer.ushahidi.UshahidiClient;
 import edu.grinnell.glimmer.ushahidi.UshahidiIncident;
-import edu.grinnell.glimmer.ushahidi.UshahidiLocation;
 
 public class PartThree {
-
-    /**
-     * Reads a set of UshahidiIncidents into a list
-     * 
-     * @param client
-     * @throws Exception
-     */
-    private static DoublyLinkedList<UshahidiIncident> readIncidents(
-	    UshahidiClient client) throws Exception {
-	DoublyLinkedList<UshahidiIncident> list = new DoublyLinkedList<UshahidiIncident>();
-	while (client.hasMoreIncidents()) {
-	    list.append(client.nextIncident());
-	} // while
-	return list;
-    } // readIncidents(UshahidiClient)
-
-    private static UshahidiLocation avgLoki(
-	    DoublyLinkedList<UshahidiIncident> list) throws Exception {
-	DoublyLinkedListCursor<UshahidiIncident> c = (DoublyLinkedListCursor<UshahidiIncident>) list
-		.front();
-	double totalLat = 0;
-	double totalLong = 0;
-	int counter = 0;
-	while (list.hasNext(c)) {
-	    totalLat += c.pos.val.getLocation().getLatitude();
-	    totalLong += c.pos.val.getLocation().getLongitude();
-	    counter++;
-	    list.advance(c);
-	}
-	UshahidiLocation avgLoc = new UshahidiLocation(0,
-		"Average Longitude and Latitude", totalLat / counter, totalLong
-			/ counter);
-	return avgLoc;
-    }
 
     private static Calendar earliest(DoublyLinkedList<UshahidiIncident> list)
 	    throws Exception {
@@ -98,14 +64,14 @@ public class PartThree {
 	return high;
     }
 
-    private static double[] northernmost(DoublyLinkedList<UshahidiIncident> list)
+    private static double[] directions(DoublyLinkedList<UshahidiIncident> list)
 	    throws Exception {
 	DoublyLinkedListCursor<UshahidiIncident> c = (DoublyLinkedListCursor<UshahidiIncident>) list
 		.front();
 	double north = list.get(c).getLocation().getLatitude();
 	double south = list.get(c).getLocation().getLatitude();
 	double east = list.get(c).getLocation().getLongitude();
-	double west = list.get(c).getLocation().getLongitude();	
+	double west = list.get(c).getLocation().getLongitude();
 	while (list.hasNext(c)) {
 	    if (north < list.get(c).getLocation().getLatitude()) {
 		north = list.get(c).getLocation().getLatitude();
@@ -121,11 +87,32 @@ public class PartThree {
 	    }
 	    list.advance(c);
 	}
-	double[] directions = {north, south, east, west};
+	double[] directions = { north, south, east, west };
 	return directions;
     }
 
-    public static void summary(DoublyLinkedList<UshahidiIncident> list) {
-	
+    public static void summary(DoublyLinkedList<UshahidiIncident> main)
+	    throws Exception {
+
+	PrintWriter pen = new PrintWriter(System.out, true);
+	pen.println("A summary of \"some useful...information\"");
+	Calendar early = earliest(main);
+	pen.println("  Earliest Date: " + early.get(Calendar.MONTH + 1) + "/"
+		+ early.get(Calendar.DATE) + "/" + early.get(Calendar.YEAR));
+	Calendar late = latest(main);
+	pen.println("  Latest Date: " + late.get(Calendar.MONTH + 1) + "/"
+		+ late.get(Calendar.DATE) + "/" + late.get(Calendar.YEAR));
+	pen.println("  Lowest ID: " + lowId(main));
+	pen.println("  Highest ID: " + highId(main));
+	pen.println("  Northernmost: " + directions(main)[0]);
+	pen.println("  Southernnmost: " + directions(main)[1]);
+	pen.println("  Easternmost: " + directions(main)[2]);
+	pen.println("  Westernmost: " + directions(main)[3]);
+    }
+
+    public static void main(String[] args) throws Exception {
+	UshahidiClient test = PartTwoTest.ushahidiIncidentTester();
+	DoublyLinkedList<UshahidiIncident> main = PartTwo.readIncidents(test);
+	summary(main);
     }
 }
