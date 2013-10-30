@@ -5,6 +5,9 @@ import java.util.NoSuchElementException;
 
 /**
  * Doubly linked lists.
+ * 
+ * Citations: Code generously shared by Daniel, Earnest, and Mark after Matt
+ * failed. Samuel A. Rebelsky also said it was okay.
  */
 public class DoublyLinkedList<T> implements ListOf<T> {
 
