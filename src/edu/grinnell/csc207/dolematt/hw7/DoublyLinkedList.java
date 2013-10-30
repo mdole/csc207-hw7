@@ -24,31 +24,10 @@ public class DoublyLinkedList<T> implements ListOf<T> {
 	this.back = this.dummy;
     } // DoublyLinkedList
 
-    class DoublyLinkedListIterator<T> implements Iterator<T> {
-	Node<T> pos;
-
-	public DoublyLinkedListIterator(Node<T> pos) {
-	    this.pos = pos;
-	} // DoublyLinkedListIterator(Node<T>)
-
-	@Override
-	public T next() {
-	    T tmp = this.pos.val;
-	    this.pos = this.pos.next;
-	    return tmp;
-	}
-
-	@Override
-	public boolean hasNext() {
-	    return this != null;
-	}
-
-	@Override
-	public void remove() {
-	    return; // not implemented
-	}
-
-    } // class DoublyLinkedListIterator
+    @Override
+    public Iterator<T> iterator() {
+	return new DoublyLinkedListIterator<T>(this.front);
+    }
 
     // LISTOF METHODS
     public void insert(T val, Cursor<T> c) throws Exception {
@@ -74,12 +53,11 @@ public class DoublyLinkedList<T> implements ListOf<T> {
 	this.dummy.prev = n;
 	if (this.front == this.dummy) {
 	    this.front = n;
-	    this.back = this.front;
 	} else {
 	    this.back.next = n;
-	    n.prev = this.back;
-	    this.back = n;
 	}
+	n.prev = this.back;
+	this.back = n;
     } // append(T)
 
     public void prepend(T val) throws Exception {
@@ -89,8 +67,7 @@ public class DoublyLinkedList<T> implements ListOf<T> {
 	if (this.dummy == this.front) {
 	    this.front = n;
 	    this.back = this.front;
-	}
-	else {
+	} else {
 	    n.next = this.front;
 	    this.front.prev = n;
 	    this.front = n;
@@ -101,7 +78,12 @@ public class DoublyLinkedList<T> implements ListOf<T> {
 	DoublyLinkedListCursor<T> dllc = (DoublyLinkedListCursor<T>) c;
 	dllc.pos.prev.next = dllc.pos.next;
 	dllc.pos.next.prev = dllc.pos.prev;
-	dllc.pos = dllc.pos.prev;
+	if (this.dummy == this.front) {
+	    dllc.pos = dllc.pos.next;
+	} else {
+	    dllc.pos = dllc.pos.prev;
+
+	}
     } // delete(Cursor<T>)
 
     // do we want to initialize the cursor to the dummy?
@@ -148,12 +130,12 @@ public class DoublyLinkedList<T> implements ListOf<T> {
 
     public boolean hasNext(Cursor<T> c) {
 	DoublyLinkedListCursor<T> dllc = (DoublyLinkedListCursor<T>) c;
-	return (dllc.pos.next != null);
+	return (dllc.pos.next != null && dllc.pos.next != this.dummy);
     } // hasNext
 
     public boolean hasPrev(Cursor<T> c) {
 	DoublyLinkedListCursor<T> dllc = (DoublyLinkedListCursor<T>) c;
-	return (dllc.pos.prev != null);
+	return (dllc.pos.prev != null && dllc.pos.prev != this.dummy);
     } // hasPrev
 
     public void swap(Cursor<T> c1, Cursor<T> c2) throws Exception {
@@ -164,8 +146,6 @@ public class DoublyLinkedList<T> implements ListOf<T> {
 	dllc2.pos.val = tmp;
     } // swap(Cursor<T>, Cursor<T>)
 
-    // does this work using dllc or do we have to change back to c?
-    // basically, can things that take cursors take dllcS? I think so...
     public boolean search(Cursor<T> c, Predicate<T> pred) throws Exception {
 	DoublyLinkedListCursor<T> dllc = (DoublyLinkedListCursor<T>) c;
 	Node<T> tempNode = dllc.pos;
@@ -179,7 +159,6 @@ public class DoublyLinkedList<T> implements ListOf<T> {
 	return false;
     } // search(Cursor<T>, Predicate<T>)
 
-    // figure out how to deal with last element
     public ListOf<T> select(Predicate<T> pred) throws Exception {
 	DoublyLinkedList<T> newlist = new DoublyLinkedList<T>();
 	Cursor<T> c = front();
@@ -210,9 +189,11 @@ public class DoublyLinkedList<T> implements ListOf<T> {
 	DoublyLinkedList<T> newlist = new DoublyLinkedList<T>();
 	DoublyLinkedListCursor<T> dllc1 = (DoublyLinkedListCursor<T>) start;
 	DoublyLinkedListCursor<T> dllc2 = (DoublyLinkedListCursor<T>) end;
-	while (dllc1.pos != dllc2.pos) {
-	    newlist.append(dllc1.pos.val);
-	    this.advance(dllc1);
+	DoublyLinkedListCursor<T> dllc3 = new DoublyLinkedListCursor<T>(
+		dllc1.pos);
+	while (dllc3.pos != dllc2.pos) {
+	    newlist.append(dllc3.pos.val);
+	    this.advance(dllc3);
 	}
 	return newlist;
     } // sublist(Cursor<T>, Cursor<T>)
@@ -251,4 +232,30 @@ class DoublyLinkedListCursor<T> implements Cursor<T> {
     } // DoublyLinkedListCursor<T>
 
 } // DoublyLinkedListCursor<T>
+
+class DoublyLinkedListIterator<T> implements Iterator<T> {
+    Node<T> pos;
+
+    public DoublyLinkedListIterator(Node<T> pos) {
+	this.pos = pos;
+    } // DoublyLinkedListIterator(Node<T>)
+
+    @Override
+    public T next() {
+	T tmp = this.pos.val;
+	this.pos = this.pos.next;
+	return tmp;
+    }
+
+    @Override
+    public boolean hasNext() {
+	return this != null;
+    }
+
+    @Override
+    public void remove() {
+	return; // not implemented
+    }
+
+} // class DoublyLinkedListIterator
 
