@@ -29,12 +29,27 @@ public class DoublyLinkedList<T> implements ListOf<T> {
 	this.back = this.dummy;
     } // DoublyLinkedList
 
-    @Override
-    public Iterator<T> iterator() {
-	return new DoublyLinkedListIterator<T>(this.front);
-    }
 
     // LISTOF METHODS
+    
+    /**
+     * Insert an element at the location of the Cursor<T> (between two
+     * elements).
+     *
+     * @pre
+     *   lit must be associated with the list and in the list.
+     *
+     * @throws Exception
+     *   If the precondition is not met.
+     * @throws Exception
+     *   If there is no memory to expand the list.
+     *
+     * @post
+     *   The previous element to the iterator remains the same
+     *   str is immediately after the iterator
+     *   The element that previously followed the iterator follows str
+     *   And writing postconditions is a PITN
+     */
     public void insert(T val, Cursor<T> c) throws Exception {
 	DoublyLinkedListCursor<T> dllc = (DoublyLinkedListCursor<T>) c;
 	Node<T> newNode = new Node<T>(val);
@@ -52,6 +67,13 @@ public class DoublyLinkedList<T> implements ListOf<T> {
 	}
     } // insert(T, Cursor<T>)
 
+    /**
+     * Add an element to the end of the list.  (Creates a one-element
+     * list if the list is empty.)
+     *
+     * @throws Exception
+     *   If there is no memory to expand the list.
+     */
     public void append(T val) throws Exception {
 	Node<T> n = new Node<T>(val);
 	n.next = this.dummy;
@@ -65,6 +87,13 @@ public class DoublyLinkedList<T> implements ListOf<T> {
 	this.back = n;
     } // append(T)
 
+    /**
+     * Add an element to the front of the list.  (Creates a one-element
+     * list if the list is empty.)
+     *
+     * @throws Exception
+     *   If there is no memory to expand the list.
+     */
     public void prepend(T val) throws Exception {
 	Node<T> n = new Node<T>(val);
 	this.dummy.next = n;
@@ -79,6 +108,17 @@ public class DoublyLinkedList<T> implements ListOf<T> {
 	}
     } // prepend(T)
 
+    //Removing Elements
+    /**
+     * Delete the element immediately after the iterator.
+     *
+     * @post
+     *    The remaining elements retain their order.
+     * @post
+     *    The iterator is at the position
+     *    The successor of the element immediately before the iterator
+     *      is the successor of the now-deleted element.
+     */
     public void delete(Cursor<T> c) throws Exception {
 	DoublyLinkedListCursor<T> dllc = (DoublyLinkedListCursor<T>) c;
 	dllc.pos.prev.next = dllc.pos.next;
@@ -91,7 +131,23 @@ public class DoublyLinkedList<T> implements ListOf<T> {
 	}
     } // delete(Cursor<T>)
 
-    // do we want to initialize the cursor to the dummy?
+    // Iterating Lists
+    /**
+     * Get a standard interator at the front of the list.
+     */
+     
+
+    @Override
+    public Iterator<T> iterator() {
+	return new DoublyLinkedListIterator<T>(this.front);
+    }
+    
+    /**
+     * Get an iterator right before the front of the list.
+     *
+     * @throws Exception
+     *   If the list is empty.
+     */
     public Cursor<T> front() throws Exception {
 	if (this.front == this.dummy) {
 	    throw new NoSuchElementException("empty list");
@@ -100,7 +156,7 @@ public class DoublyLinkedList<T> implements ListOf<T> {
 	return c;
     } // front()
 
-    
+
     public void advance(Cursor<T> c) throws Exception {
         DoublyLinkedListCursor<T> dllc = (DoublyLinkedListCursor<T>) c;
         if (this.hasNext(dllc)) {
