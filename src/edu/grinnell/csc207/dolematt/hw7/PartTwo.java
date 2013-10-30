@@ -14,11 +14,12 @@ public class PartTwo {
      * @param client
      * @throws Exception
      */
-    public static void readIncidents(UshahidiClient client) throws Exception {
+    public static DoublyLinkedList<UshahidiIncident> readIncidents(UshahidiClient client) throws Exception {
 	DoublyLinkedList<UshahidiIncident> list = new DoublyLinkedList<UshahidiIncident>();
 	while (client.hasMoreIncidents()) {
 	    list.append(client.nextIncident());
 	} // while
+	return list;
     } // readIncidents(UshahidiClient)
 
     public static UshahidiLocation avgLoki(
@@ -71,11 +72,9 @@ class LocPredicate implements Predicate<UshahidiIncident> {
 		+ Math.pow(
 			val.getLocation().getLongitude()
 				- this.avg.getLongitude(), 2));
-	return dist <= 10;
+	return dist <= 15;
     }
 
-    public static void main(String[] args) {
-	
+ 
+}// class LocPredicate
 
-    }// main
-}// class PartTwo

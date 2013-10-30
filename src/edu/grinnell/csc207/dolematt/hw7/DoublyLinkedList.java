@@ -22,7 +22,7 @@ public class DoublyLinkedList<T> implements ListOf<T> {
      * Create a new linked list.
      */
     public DoublyLinkedList() {
-	this.dummy.val = null;
+	this.dummy = new Node<T>(null);
 	this.front = this.dummy;
 	this.back = this.dummy;
     } // DoublyLinkedList
@@ -102,10 +102,7 @@ public class DoublyLinkedList<T> implements ListOf<T> {
 	DoublyLinkedListCursor<T> dllc = (DoublyLinkedListCursor<T>) c;
 	if (this.hasNext(dllc)) {
 	    dllc.pos = dllc.pos.next;
-	} else {
-	    throw new NoSuchElementException("at end of list");
 	}
-
     } // advance(Cursor<T>)
 
     public void retreat(Cursor<T> c) throws Exception {
@@ -152,11 +149,14 @@ public class DoublyLinkedList<T> implements ListOf<T> {
     public boolean search(Cursor<T> c, Predicate<T> pred) throws Exception {
 	DoublyLinkedListCursor<T> dllc = (DoublyLinkedListCursor<T>) c;
 	Node<T> tempNode = dllc.pos;
-	while (this.hasNext(dllc) || dllc.pos == this.back) {
+	while (this.hasNext(dllc)) {
 	    if (pred.test(dllc.pos.val)) {
 		return true;
 	    }
 	    this.advance(dllc);
+	}
+	if (pred.test(dllc.pos.val)) {
+	    return true;
 	}
 	dllc.pos = tempNode;
 	return false;
@@ -166,11 +166,14 @@ public class DoublyLinkedList<T> implements ListOf<T> {
 	DoublyLinkedList<T> newlist = new DoublyLinkedList<T>();
 	Cursor<T> c = front();
 	DoublyLinkedListCursor<T> dllc = (DoublyLinkedListCursor<T>) c;
-	while (this.hasNext(dllc) || dllc.pos == this.back) {
+	while (this.hasNext(dllc)) {
 	    if (pred.test(dllc.pos.val)) {
 		newlist.append(dllc.pos.val);
 	    }
 	    this.advance(dllc);
+	}
+	if (pred.test(dllc.pos.val)) {
+	    newlist.append(dllc.pos.val);
 	}
 	return newlist;
     } // select(Predicate<T>)
