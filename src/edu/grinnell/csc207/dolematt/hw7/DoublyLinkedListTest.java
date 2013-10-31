@@ -67,7 +67,7 @@ public class DoublyLinkedListTest {
 	}
 	DoublyLinkedListCursor<Integer> dllc1 = new DoublyLinkedListCursor<Integer>(list.dummy);
 	DoublyLinkedListCursor<Integer> dllc2 = new DoublyLinkedListCursor<Integer>(list.front);
-	//assertEquals(true, list.precedes(dllc1, dllc2));
+	assertEquals(true, list.precedes(dllc1, dllc2));
 	list.advance(dllc1);
 	assertEquals(false, list.precedes(dllc1, dllc2));
 	list.advance(dllc1);
