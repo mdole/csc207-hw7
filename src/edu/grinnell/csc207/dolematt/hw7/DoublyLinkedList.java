@@ -32,7 +32,11 @@ public class DoublyLinkedList<T> implements ListOf<T> {
     // LISTOF METHODS
 
     /**
+<<<<<<< HEAD
      * Insert an element after the location of the Cursor<T>
+=======
+     * Insert an element at the location of the Cursor<T>
+>>>>>>> 75cc94f22da3c0d24875c2b191b119af1ac01a72
      * 
      * @pre c must be associated with the list and in the list.
      * 
@@ -41,8 +45,14 @@ public class DoublyLinkedList<T> implements ListOf<T> {
      * @throws Exception
      *             If there is no memory to expand the list.
      * 
+<<<<<<< HEAD
      * @post The cursor does not move val is immediately after the cursor The
      *       element that previously followed the cursor follows val
+=======
+     * @post The previous element to the iterator remains the same str is
+     *       immediately after the iterator The element that previously followed
+     *       the iterator follows str And writing postconditions is a PITN
+>>>>>>> 75cc94f22da3c0d24875c2b191b119af1ac01a72
      */
     public void insert(T val, Cursor<T> c) throws Exception {
 	DoublyLinkedListCursor<T> dllc = (DoublyLinkedListCursor<T>) c;
@@ -169,7 +179,6 @@ public class DoublyLinkedList<T> implements ListOf<T> {
 	} else {
 	    throw new NoSuchElementException("at end of list");
 	}// if/else
-
     } // advance(Cursor<T>)
 
     /**
@@ -223,10 +232,14 @@ public class DoublyLinkedList<T> implements ListOf<T> {
     /**
      * Determine if it's safe to advance to the next position.
      * 
+<<<<<<< HEAD
      * @pre c is valid and associated with the list.
      * 
      * @throws Exception
      *             if c is not associated with the list
+=======
+     * @pre pos is valid and associated with the list.
+>>>>>>> 75cc94f22da3c0d24875c2b191b119af1ac01a72
      */
     public boolean hasNext(Cursor<T> c) throws Exception {
 	DoublyLinkedListCursor<T> dllc = (DoublyLinkedListCursor<T>) c;
@@ -244,10 +257,14 @@ public class DoublyLinkedList<T> implements ListOf<T> {
     /**
      * Determine if it's safe to retreat to the previous position.
      * 
+<<<<<<< HEAD
      * @pre c is valid and associated with the list.
      * 
      * @throws Exception
      *             if c is not associated with the list
+=======
+     * @pre pos is valid and associated with the list.
+>>>>>>> 75cc94f22da3c0d24875c2b191b119af1ac01a72
      */
     public boolean hasPrev(Cursor<T> c) throws Exception {
 	DoublyLinkedListCursor<T> dllc = (DoublyLinkedListCursor<T>) c;
@@ -265,11 +282,19 @@ public class DoublyLinkedList<T> implements ListOf<T> {
     // Other operations
 
     /**
+<<<<<<< HEAD
      * Swap the elements at the positions the correspond to c1 and c2.
      * 
      * @pre Both c1 and c2 are valid and associated with this list. v1 =
      *      get(c1), v2 = get(c2)
      * @post c1 and c2 are unchanged. v1 = get(c2), v2 = get(c1)
+=======
+     * Swap the elements at the positions the corresopnd to it1 and it2.
+     * 
+     * @pre Both it1 and it2 are valid and associated with this list. v1 =
+     *      get(it1), v2 = get(it2)
+     * @post it1 and it2 are unchanged. v1 = get(it2), v2 = get(it1)
+>>>>>>> 75cc94f22da3c0d24875c2b191b119af1ac01a72
      */
     public void swap(Cursor<T> c1, Cursor<T> c2) throws Exception {
 	DoublyLinkedListCursor<T> dllc1 = (DoublyLinkedListCursor<T>) c1;
@@ -281,12 +306,20 @@ public class DoublyLinkedList<T> implements ListOf<T> {
 
     /**
      * Search for a value that meets a predicate, moving the iterator to that
+<<<<<<< HEAD
      * value.
+=======
+     * value. User must ensure that cursors are associated with the list
+>>>>>>> 75cc94f22da3c0d24875c2b191b119af1ac01a72
      * 
      * @return true, if the value was found
      * @return false, if the value was not found
      * 
+<<<<<<< HEAD
      * @post If the value is not found, the iterator has not moved.
+=======
+     * @post If the value is not found, the cursor has not moved.
+>>>>>>> 75cc94f22da3c0d24875c2b191b119af1ac01a72
      * @post IF the value is found, get(it) is value
      */
     public boolean search(Cursor<T> c, Predicate<T> pred) throws Exception {
@@ -298,6 +331,8 @@ public class DoublyLinkedList<T> implements ListOf<T> {
 	    }
 	    this.advance(dllc);
 	}
+	// Checks the last element since the while loop would stop the cursor at
+	// the last element
 	if (pred.test(dllc.pos.val)) {
 	    return true;
 	}
@@ -306,22 +341,39 @@ public class DoublyLinkedList<T> implements ListOf<T> {
     } // search(Cursor<T>, Predicate<T>)
 
     /**
+<<<<<<< HEAD
      * Grab a sublist. (Detailed discussion not included.)
      * 
      * @pre Valid iterators. start precedes end.
      * @throws Exception
      *             If the iterators are invalid.
+=======
+     * Grab a sublist. User must ensure that cursors are associated with the
+     * list.
+     * 
+     * @pre start precedes end.
+     * @throws Exception
+     *             Start is after end
+     * 
+>>>>>>> 75cc94f22da3c0d24875c2b191b119af1ac01a72
      */
     // user must check if the list is empty. assumes non-inclusive end.
-    public ListOf<T> subList(Cursor<T> start, Cursor<T> end) throws Exception {
+    public ListOf<T> subList(Cursor<T> start, Cursor<T> end)
+	    throws Exception {
 	DoublyLinkedList<T> newlist = new DoublyLinkedList<T>();
 	DoublyLinkedListCursor<T> dllc1 = (DoublyLinkedListCursor<T>) start;
 	DoublyLinkedListCursor<T> dllc2 = (DoublyLinkedListCursor<T>) end;
+	//Creates a new dllc so that the start cursor does not move.
 	DoublyLinkedListCursor<T> dllc3 = new DoublyLinkedListCursor<T>(
 		dllc1.pos);
 	while (dllc3.pos != dllc2.pos) {
-	    newlist.append(dllc3.pos.val);
-	    this.advance(dllc3);
+	    if (this.hasNext(dllc3)) {
+		newlist.append(dllc3.pos.val);
+		this.advance(dllc3);
+	    } else {
+		throw new Exception(
+			"What are you doing? Start is after end");
+	    }
 	}
 	return newlist;
     } // sublist(Cursor<T>, Cursor<T>)
@@ -346,7 +398,8 @@ public class DoublyLinkedList<T> implements ListOf<T> {
     } // select(Predicate<T>)
 
     /**
-     * Determine if one iterator precedes another iterator.
+     * Determine if one iterator precedes another iterator. The user must ensure
+     * that the cursors are associated with the list.
      */
     public boolean precedes(Cursor<T> c1, Cursor<T> c2) throws Exception {
 	DoublyLinkedListCursor<T> dllc1 = (DoublyLinkedListCursor<T>) c1;
