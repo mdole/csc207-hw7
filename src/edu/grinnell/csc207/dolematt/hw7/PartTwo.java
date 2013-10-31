@@ -16,8 +16,12 @@ public class PartTwo {
      */
     public static DoublyLinkedList<UshahidiIncident> readIncidents(UshahidiClient client) throws Exception {
 	DoublyLinkedList<UshahidiIncident> list = new DoublyLinkedList<UshahidiIncident>();
+	DoublyLinkedList<UshahidiIncident> list2 = new DoublyLinkedList<UshahidiIncident>();
+	DoublyLinkedListCursor<UshahidiIncident> c = new DoublyLinkedListCursor<UshahidiIncident>(list.dummy);
+	DoublyLinkedListCursor<UshahidiIncident> c2 = new DoublyLinkedListCursor<UshahidiIncident>(list2.dummy);
 	while (client.hasMoreIncidents()) {
-	    list.append(client.nextIncident());
+	    list.insert(client.nextIncident(), c2);
+	    //list.append(client.nextIncident());
 	} // while
 	return list;
     } // readIncidents(UshahidiClient)
