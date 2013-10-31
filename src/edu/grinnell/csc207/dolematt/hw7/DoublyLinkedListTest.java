@@ -19,11 +19,6 @@ public class DoublyLinkedListTest {
     }
 
     @Test
-    public void testPrepend() {
-	fail("Not yet implemented");
-    }
-
-    @Test
     public void testDelete() throws Exception{
 	DoublyLinkedList<Integer> list = new DoublyLinkedList<Integer>();
 	int i = 0;
@@ -35,12 +30,6 @@ public class DoublyLinkedListTest {
 	list.delete(dllc1);
 	assertEquals(true, list.dummy.next== dllc2.pos);
     }
-
-    @Test
-    public void testIterator() {
-	fail("Not yet implemented");
-    }
-
 
     @Test
     public void testGetPrevRetreat() throws Exception{
@@ -56,26 +45,6 @@ public class DoublyLinkedListTest {
 	list.retreat(dllc2);
 	assertEquals(true, (dllc1.pos == dllc2.pos));
 	
-    }
-
-    @Test
-    public void testHasPrev() {
-	fail("Not yet implemented");
-    }
-
-    @Test
-    public void testSwap() {
-	fail("Not yet implemented");
-    }
-
-    @Test
-    public void testSearch() {
-	fail("Not yet implemented");
-    }
-
-    @Test
-    public void testSubList() {
-	fail("Not yet implemented");
     }
 
     @Test
