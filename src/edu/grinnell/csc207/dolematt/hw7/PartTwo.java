@@ -4,6 +4,7 @@ import java.util.Calendar;
 
 import edu.grinnell.glimmer.ushahidi.UshahidiClient;
 import edu.grinnell.glimmer.ushahidi.UshahidiIncident;
+import edu.grinnell.glimmer.ushahidi.UshahidiIncidentList;
 import edu.grinnell.glimmer.ushahidi.UshahidiLocation;
 
 public class PartTwo {
@@ -50,12 +51,12 @@ public class PartTwo {
 	    totalLong += c.pos.val.getLocation().getLongitude();
 	    counter++;
 	    list.advance(c);
-	}
+	} // while
 	UshahidiLocation avgLoc = new UshahidiLocation(0,
-		"Average Longitude and Latitude", totalLat / counter,
-		totalLong / counter);
+		"Average Longitude and Latitude", totalLat / counter, totalLong
+			/ counter);
 	return avgLoc;
-    }
+    } // avgLoki
 
     /**
      * takes a list of UshahidiIncidents and calls avgLoki to get the average
@@ -63,7 +64,8 @@ public class PartTwo {
      * predicate of being within 15 degrees of the average location.
      * 
      * @param list
-     * @return extracted, a list of UshahidiIncidents that fit pass the Predicate
+     * @return extracted, a list of UshahidiIncidents that fit pass the
+     *         Predicate
      * @throws Exception
      */
 
@@ -77,8 +79,8 @@ public class PartTwo {
 	DoublyLinkedList<UshahidiIncident> extracted = (DoublyLinkedList<UshahidiIncident>) list
 		.select(tester);
 	return extracted;
-    }
-}
+    } // extract
+} // class PartTwo
 
 class LocPredicate implements Predicate<UshahidiIncident> {
 
@@ -88,7 +90,7 @@ class LocPredicate implements Predicate<UshahidiIncident> {
     // CONSTRUCTOR
     public LocPredicate(UshahidiIncident newAvg) {
 	this.avg = newAvg.getLocation();
-    }
+    } // LocPredicate
 
     // METHOD/PREDICATE
     /**
@@ -112,7 +114,7 @@ class LocPredicate implements Predicate<UshahidiIncident> {
 			val.getLocation().getLongitude()
 				- this.avg.getLongitude(), 2));
 	return dist <= 15;
-    }
+    } // test
 
 } // class LocPredicate
 

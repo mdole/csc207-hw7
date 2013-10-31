@@ -21,9 +21,9 @@ public class PartTwoTest {
 	    incidents.addIncident(new UshahidiIncident(i, "Clever title " + i,
 		    date, new UshahidiLocation(i, "Location " + i, (i + 1) * 3,
 			    (i + 1) * 3), "Mmm, cheese."));
-	}
+	} // for
 	return incidents;
-    }
+    } // ushahidiIncidentTest
 
     public static void main(String[] args) throws Exception {
 	UshahidiClient test = ushahidiIncidentTester();
@@ -35,12 +35,12 @@ public class PartTwoTest {
 	while(blah.hasNext(c)) {
 	    pen.println(blah.get(c).getLocation());
 	    result.advance(c);
-	}
+	} // while
 	c = result.front();
 	pen.println(PartTwo.avgLoki(result));
 	while(result.hasNext(c)) {
 	    pen.println(result.get(c).getLocation());
 	    result.advance(c);
-	}	
-    }
-}
+	} // while
+    } // main
+} // PartTwoTest

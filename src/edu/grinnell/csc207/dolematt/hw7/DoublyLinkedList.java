@@ -14,7 +14,6 @@ import java.util.NoSuchElementException;
  *         Matt failed. Samuel A. Rebelsky also said it was okay.
  */
 
-// GO OVER ALL THE CODE TO MAKE SURE IT MATCHES THE DOCUMENTATION IN ListOf
 public class DoublyLinkedList<T> implements ListOf<T> {
 
     // FIELDS
