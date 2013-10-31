@@ -32,7 +32,7 @@ public class DoublyLinkedList<T> implements ListOf<T> {
     // LISTOF METHODS
 
     /**
-     * Insert an element at the location of the Cursor<T> 
+     * Insert an element at the location of the Cursor<T>
      * 
      * @pre c must be associated with the list and in the list.
      * 
@@ -42,32 +42,19 @@ public class DoublyLinkedList<T> implements ListOf<T> {
      *             If there is no memory to expand the list.
      * 
      * @post The cursor does not move. val is immediately after the cursor. The
-     *       element that previously followed the cursor follows val 
+     *       element that previously followed the cursor follows val
      */
     public void insert(T val, Cursor<T> c) throws Exception {
 	DoublyLinkedListCursor<T> dllc = (DoublyLinkedListCursor<T>) c;
-	DoublyLinkedListCursor<T> dllc2 = new DoublyLinkedListCursor<T>(
-		this.dummy);
-	// this loop checks if the cursor is in the list by comparing it to a
-	// newly created cursor that iterates through the list. If they match,
-	// then the original cursor is in the list, so we create a node and
-	// insert it
-	while (this.hasNext(dllc2)) {
-	    if (dllc2 == dllc) {
-		Node<T> newNode = new Node<T>(val);
-		if (dllc.pos == this.back || this.dummy.next == null) {
-		    this.append(val);
-		} else {
-		    newNode.next = dllc.pos.next;
-		    newNode.prev = dllc.pos;
-		    dllc.pos.next = newNode;
-		    newNode.next.prev = newNode;
-		}// if/else
-		return;
-	    }// if
-	    this.advance(dllc2);
-	} // while
-	throw new Exception("Cursor is not associated with the list");
+	if (dllc.pos == this.back || this.dummy.next == null) {
+	    this.append(val);
+	} else {
+	    Node<T> newNode = new Node<T>(val);
+	    newNode.next = dllc.pos.next;
+	    newNode.prev = dllc.pos;
+	    dllc.pos.next = newNode;
+	    newNode.next.prev = newNode;
+	}// if/else
     } // insert(T, Cursor<T>)
 
     /**
@@ -196,15 +183,7 @@ public class DoublyLinkedList<T> implements ListOf<T> {
      */
     public T get(Cursor<T> c) throws Exception {
 	DoublyLinkedListCursor<T> dllc = (DoublyLinkedListCursor<T>) c;
-	DoublyLinkedListCursor<T> dllc2 = new DoublyLinkedListCursor<T>(
-		this.dummy);
-	while (this.hasNext(dllc2)) {
-	    if (dllc == dllc2) {
-		return dllc.pos.val;
-	    }// if
-	    advance(dllc2);
-	}// while
-	throw new Exception("Cursor is not associated with the list");
+	return dllc.pos.val;
     } // get
 
     /**
@@ -223,21 +202,10 @@ public class DoublyLinkedList<T> implements ListOf<T> {
      * Determine if it's safe to advance to the next position.
      * 
      * @pre c is valid and associated with the list.
-     * 
-     * @throws Exception
-     *             if c is not associated with the list
      */
     public boolean hasNext(Cursor<T> c) throws Exception {
 	DoublyLinkedListCursor<T> dllc = (DoublyLinkedListCursor<T>) c;
-	DoublyLinkedListCursor<T> dllc2 = new DoublyLinkedListCursor<T>(
-		this.dummy);
-	while (this.hasNext(dllc2)) {
-	    if (dllc == dllc2) {
-		return (dllc.pos.next != null && dllc.pos.next != this.dummy);
-	    }// if
-	    advance(dllc2);
-	}// while
-	throw new Exception("Cursor is not associated with the list");
+	return (dllc.pos.next != null && dllc.pos.next != this.dummy);
     } // hasNext
 
     /**
@@ -250,15 +218,7 @@ public class DoublyLinkedList<T> implements ListOf<T> {
      */
     public boolean hasPrev(Cursor<T> c) throws Exception {
 	DoublyLinkedListCursor<T> dllc = (DoublyLinkedListCursor<T>) c;
-	DoublyLinkedListCursor<T> dllc2 = new DoublyLinkedListCursor<T>(
-		this.dummy);
-	while (this.hasNext(dllc2)) {
-	    if (dllc == dllc2) {
-		return (dllc.pos.prev != null && dllc.pos.prev != this.dummy);
-	    }// if
-	    advance(dllc2);
-	}// while
-	throw new Exception("Cursor is not associated with the list");
+	return (dllc.pos.prev != null && dllc.pos.prev != this.dummy);
     } // hasPrev
 
     // Other operations

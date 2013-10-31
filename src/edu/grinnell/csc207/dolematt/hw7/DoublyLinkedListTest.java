@@ -7,8 +7,15 @@ import org.junit.Test;
 public class DoublyLinkedListTest {
 
     @Test
-    public void testInsert() {
-	fail("Not yet implemented");
+    public void testInsert() throws Exception {
+	DoublyLinkedList<String> newlist = new DoublyLinkedList<String>();
+	DoublyLinkedListCursor<String> c = new DoublyLinkedListCursor<String>(
+		newlist.dummy);
+	newlist.insert("one", c);
+	newlist.insert("two", c);
+	newlist.insert("three", c);
+	newlist.retreat(c);
+	assertEquals("first test", "three", newlist.get(c));
     }
 
     @Test
