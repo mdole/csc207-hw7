@@ -6,17 +6,36 @@ import java.util.NoSuchElementException;
 /**
  * Doubly linked lists class.
  * 
- * Citations: Code generously shared by Daniel, Earnest, and Mark after Matt
- * failed. Samuel A. Rebelsky also said it was okay.
+ * @author Tiffany Nguyen
+ * @author Matt Dole
+ * @author John Brady
+ * 
+ *         Citations: Code generously shared by Daniel, Earnest, and Mark after
+ *         Matt failed. Samuel A. Rebelsky also said it was okay.
  */
 
 // GO OVER ALL THE CODE TO MAKE SURE IT MATCHES THE DOCUMENTATION IN ListOf
 public class DoublyLinkedList<T> implements ListOf<T> {
 
     // FIELDS
-
+    /**
+     * front will be the initial first node in the list that contains data. Its
+     * previous node will link to dummy, and its next node will be the next
+     * element in the list, but is initially linked to dummy
+     */
     Node<T> front;
+    /**
+     * back will be the initial last node in the list that contains data. Its
+     * previous node will link to the second to last node in the list, which
+     * initializes as dummy. Its next node will link to the dummy node.
+     */
     Node<T> back;
+    /**
+     * dummy is a null node that is used to implement the doubly linked list ADT
+     * in a cyclic nature. It is used to designate the beginning and end of the
+     * list. Its next pointer will link to the first element in the list (front)
+     * and its prev pointer will link to the last element of the list.
+     */
     Node<T> dummy;
 
     // CONSTRUCTORS
@@ -54,7 +73,7 @@ public class DoublyLinkedList<T> implements ListOf<T> {
 	    newNode.prev = dllc.pos;
 	    dllc.pos.next = newNode;
 	    newNode.next.prev = newNode;
-	}// if/else
+	} // if/else
     } // insert(T, Cursor<T>)
 
     /**
@@ -72,7 +91,7 @@ public class DoublyLinkedList<T> implements ListOf<T> {
 	    this.front = n;
 	} else {
 	    this.back.next = n;
-	}// if/else
+	} // if/else
 	n.prev = this.back;
 	this.back = n;
     } // append(T)
@@ -115,7 +134,7 @@ public class DoublyLinkedList<T> implements ListOf<T> {
 	    dllc.pos = dllc.pos.next;
 	} else {
 	    dllc.pos = dllc.pos.prev;
-	}// if/else
+	} // if/else
     } // delete(Cursor<T>)
 
     // Iterating Lists
@@ -126,7 +145,7 @@ public class DoublyLinkedList<T> implements ListOf<T> {
     @Override
     public Iterator<T> iterator() {
 	return new DoublyLinkedListIterator<T>(this.front);
-    }// iterator
+    } // iterator
 
     /**
      * Get an cursor on the front of the list
@@ -137,7 +156,7 @@ public class DoublyLinkedList<T> implements ListOf<T> {
     public Cursor<T> front() throws Exception {
 	if (this.front == this.dummy) {
 	    throw new NoSuchElementException("empty list");
-	}// if
+	} // if
 	Cursor<T> c = new DoublyLinkedListCursor<T>(this.front);
 	return c;
     } // front()
@@ -155,7 +174,7 @@ public class DoublyLinkedList<T> implements ListOf<T> {
 	    dllc.pos = dllc.pos.next;
 	} else {
 	    throw new NoSuchElementException("at end of list");
-	}// if/else
+	} // if/else
     } // advance(Cursor<T>)
 
     /**
@@ -171,7 +190,7 @@ public class DoublyLinkedList<T> implements ListOf<T> {
 	    dllc.pos = dllc.pos.prev;
 	} else {
 	    throw new NoSuchElementException("at beginning of list");
-	}// if/else
+	} // if/else
     } // retreat(Cursor<T>)
 
     /**
@@ -279,7 +298,8 @@ public class DoublyLinkedList<T> implements ListOf<T> {
      * 
      */
     // user must check if the list is empty. assumes non-inclusive end.
-    public ListOf<T> subList(Cursor<T> start, Cursor<T> end) throws Exception {
+    public ListOf<T> subList(Cursor<T> start, Cursor<T> end)
+	    throws Exception {
 	DoublyLinkedList<T> newlist = new DoublyLinkedList<T>();
 	DoublyLinkedListCursor<T> dllc1 = (DoublyLinkedListCursor<T>) start;
 	DoublyLinkedListCursor<T> dllc2 = (DoublyLinkedListCursor<T>) end;
@@ -291,7 +311,8 @@ public class DoublyLinkedList<T> implements ListOf<T> {
 		newlist.append(dllc3.pos.val);
 		this.advance(dllc3);
 	    } else {
-		throw new Exception("What are you doing? Start is after end");
+		throw new Exception(
+			"What are you doing? Start is after end");
 	    }
 	}
 	return newlist;

@@ -80,5 +80,5 @@ class LocPredicate implements Predicate<UshahidiIncident> {
     }
 
  
-}// class LocPredicate
+} // class LocPredicate
 
