@@ -32,11 +32,7 @@ public class DoublyLinkedList<T> implements ListOf<T> {
     // LISTOF METHODS
 
     /**
-<<<<<<< HEAD
-     * Insert an element after the location of the Cursor<T>
-=======
-     * Insert an element at the location of the Cursor<T>
->>>>>>> 75cc94f22da3c0d24875c2b191b119af1ac01a72
+     * Insert an element at the location of the Cursor<T> 
      * 
      * @pre c must be associated with the list and in the list.
      * 
@@ -45,14 +41,8 @@ public class DoublyLinkedList<T> implements ListOf<T> {
      * @throws Exception
      *             If there is no memory to expand the list.
      * 
-<<<<<<< HEAD
-     * @post The cursor does not move val is immediately after the cursor The
-     *       element that previously followed the cursor follows val
-=======
-     * @post The previous element to the iterator remains the same str is
-     *       immediately after the iterator The element that previously followed
-     *       the iterator follows str And writing postconditions is a PITN
->>>>>>> 75cc94f22da3c0d24875c2b191b119af1ac01a72
+     * @post The cursor does not move. val is immediately after the cursor. The
+     *       element that previously followed the cursor follows val 
      */
     public void insert(T val, Cursor<T> c) throws Exception {
 	DoublyLinkedListCursor<T> dllc = (DoublyLinkedListCursor<T>) c;
@@ -290,8 +280,10 @@ public class DoublyLinkedList<T> implements ListOf<T> {
 
     /**
      * Search for a value that meets a predicate, moving the iterator to that
-     * value. User must ensure that cursors are associated with the list
+     * value.
      * 
+     * @pre cursors are associated with the list. If precondition is not met,
+     *      then the method can do "whatever it wants" -Sam
      * @return true, if the value was found
      * @return false, if the value was not found
      * 
@@ -317,21 +309,21 @@ public class DoublyLinkedList<T> implements ListOf<T> {
     } // search(Cursor<T>, Predicate<T>)
 
     /**
-     * Grab a sublist. User must ensure that cursors are associated with the
-     * list.
+     * Grab a sublist.
      * 
      * @pre start precedes end.
+     * @pre cursors are associated with the list. If precondition is not met,
+     *      then the method can do "whatever it wants"
      * @throws Exception
      *             Start is after end
      * 
      */
     // user must check if the list is empty. assumes non-inclusive end.
-    public ListOf<T> subList(Cursor<T> start, Cursor<T> end)
-	    throws Exception {
+    public ListOf<T> subList(Cursor<T> start, Cursor<T> end) throws Exception {
 	DoublyLinkedList<T> newlist = new DoublyLinkedList<T>();
 	DoublyLinkedListCursor<T> dllc1 = (DoublyLinkedListCursor<T>) start;
 	DoublyLinkedListCursor<T> dllc2 = (DoublyLinkedListCursor<T>) end;
-	//Creates a new dllc so that the start cursor does not move.
+	// Creates a new dllc so that the start cursor does not move.
 	DoublyLinkedListCursor<T> dllc3 = new DoublyLinkedListCursor<T>(
 		dllc1.pos);
 	while (dllc3.pos != dllc2.pos) {
@@ -339,8 +331,7 @@ public class DoublyLinkedList<T> implements ListOf<T> {
 		newlist.append(dllc3.pos.val);
 		this.advance(dllc3);
 	    } else {
-		throw new Exception(
-			"What are you doing? Start is after end");
+		throw new Exception("What are you doing? Start is after end");
 	    }
 	}
 	return newlist;
@@ -366,8 +357,10 @@ public class DoublyLinkedList<T> implements ListOf<T> {
     } // select(Predicate<T>)
 
     /**
-     * Determine if one iterator precedes another iterator. The user must ensure
-     * that the cursors are associated with the list.
+     * Determine if one iterator precedes another iterator.
+     * 
+     * @pre cursors are associated with the list. If precondition is not met,
+     *      then the method can do "whatever it wants"
      */
     public boolean precedes(Cursor<T> c1, Cursor<T> c2) throws Exception {
 	DoublyLinkedListCursor<T> dllc1 = (DoublyLinkedListCursor<T>) c1;
