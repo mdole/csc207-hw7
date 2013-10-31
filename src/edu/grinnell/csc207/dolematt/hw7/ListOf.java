@@ -10,8 +10,7 @@ public interface ListOf<T> extends Iterable<T> {
     // Adding Elements
     
     /**
-     * Insert an element at the location of the Cursor<T> (between two
-     * elements).
+     * Insert an element at the location of the Cursor<T>
      *
      * @pre
      *   lit must be associated with the list and in the list.

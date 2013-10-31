@@ -33,11 +33,10 @@ public class DoublyLinkedList<T> implements ListOf<T> {
     // LISTOF METHODS
     
     /**
-     * Insert an element at the location of the Cursor<T> (between two
-     * elements).
+     * Insert an element at the location of the Cursor<T>
      *
      * @pre
-     *   lit must be associated with the list and in the list.
+     *   c must be associated with the list and in the list.
      *
      * @throws Exception
      *   If the precondition is not met.
