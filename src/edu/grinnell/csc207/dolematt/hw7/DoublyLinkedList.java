@@ -232,14 +232,10 @@ public class DoublyLinkedList<T> implements ListOf<T> {
     /**
      * Determine if it's safe to advance to the next position.
      * 
-<<<<<<< HEAD
      * @pre c is valid and associated with the list.
      * 
      * @throws Exception
      *             if c is not associated with the list
-=======
-     * @pre pos is valid and associated with the list.
->>>>>>> 75cc94f22da3c0d24875c2b191b119af1ac01a72
      */
     public boolean hasNext(Cursor<T> c) throws Exception {
 	DoublyLinkedListCursor<T> dllc = (DoublyLinkedListCursor<T>) c;
@@ -257,14 +253,10 @@ public class DoublyLinkedList<T> implements ListOf<T> {
     /**
      * Determine if it's safe to retreat to the previous position.
      * 
-<<<<<<< HEAD
      * @pre c is valid and associated with the list.
      * 
      * @throws Exception
      *             if c is not associated with the list
-=======
-     * @pre pos is valid and associated with the list.
->>>>>>> 75cc94f22da3c0d24875c2b191b119af1ac01a72
      */
     public boolean hasPrev(Cursor<T> c) throws Exception {
 	DoublyLinkedListCursor<T> dllc = (DoublyLinkedListCursor<T>) c;
@@ -282,19 +274,11 @@ public class DoublyLinkedList<T> implements ListOf<T> {
     // Other operations
 
     /**
-<<<<<<< HEAD
      * Swap the elements at the positions the correspond to c1 and c2.
      * 
      * @pre Both c1 and c2 are valid and associated with this list. v1 =
      *      get(c1), v2 = get(c2)
      * @post c1 and c2 are unchanged. v1 = get(c2), v2 = get(c1)
-=======
-     * Swap the elements at the positions the corresopnd to it1 and it2.
-     * 
-     * @pre Both it1 and it2 are valid and associated with this list. v1 =
-     *      get(it1), v2 = get(it2)
-     * @post it1 and it2 are unchanged. v1 = get(it2), v2 = get(it1)
->>>>>>> 75cc94f22da3c0d24875c2b191b119af1ac01a72
      */
     public void swap(Cursor<T> c1, Cursor<T> c2) throws Exception {
 	DoublyLinkedListCursor<T> dllc1 = (DoublyLinkedListCursor<T>) c1;
@@ -306,20 +290,12 @@ public class DoublyLinkedList<T> implements ListOf<T> {
 
     /**
      * Search for a value that meets a predicate, moving the iterator to that
-<<<<<<< HEAD
-     * value.
-=======
      * value. User must ensure that cursors are associated with the list
->>>>>>> 75cc94f22da3c0d24875c2b191b119af1ac01a72
      * 
      * @return true, if the value was found
      * @return false, if the value was not found
      * 
-<<<<<<< HEAD
-     * @post If the value is not found, the iterator has not moved.
-=======
      * @post If the value is not found, the cursor has not moved.
->>>>>>> 75cc94f22da3c0d24875c2b191b119af1ac01a72
      * @post IF the value is found, get(it) is value
      */
     public boolean search(Cursor<T> c, Predicate<T> pred) throws Exception {
@@ -341,13 +317,6 @@ public class DoublyLinkedList<T> implements ListOf<T> {
     } // search(Cursor<T>, Predicate<T>)
 
     /**
-<<<<<<< HEAD
-     * Grab a sublist. (Detailed discussion not included.)
-     * 
-     * @pre Valid iterators. start precedes end.
-     * @throws Exception
-     *             If the iterators are invalid.
-=======
      * Grab a sublist. User must ensure that cursors are associated with the
      * list.
      * 
@@ -355,7 +324,6 @@ public class DoublyLinkedList<T> implements ListOf<T> {
      * @throws Exception
      *             Start is after end
      * 
->>>>>>> 75cc94f22da3c0d24875c2b191b119af1ac01a72
      */
     // user must check if the list is empty. assumes non-inclusive end.
     public ListOf<T> subList(Cursor<T> start, Cursor<T> end)
