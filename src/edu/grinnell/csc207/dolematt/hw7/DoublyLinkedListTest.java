@@ -1,13 +1,12 @@
 package edu.grinnell.csc207.dolematt.hw7;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
 
-import java.io.PrintWriter;
 
 import org.junit.Test;
 
 /**
+ * Testing for DoublyLinkedLists
  * @author Tiffany Nguyen
  * @author Matt Dole
  * @author John Brady
@@ -68,7 +67,6 @@ public class DoublyLinkedListTest {
 	}
     }
 
-    PrintWriter pen = new PrintWriter(System.out, true);
 
     @Test
     public void testDelete() throws Exception {

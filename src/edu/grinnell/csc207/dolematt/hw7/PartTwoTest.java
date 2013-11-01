@@ -9,8 +9,22 @@ import edu.grinnell.glimmer.ushahidi.UshahidiIncident;
 import edu.grinnell.glimmer.ushahidi.UshahidiIncidentList;
 import edu.grinnell.glimmer.ushahidi.UshahidiLocation;
 
+/**
+ * A program that tests that PartTwo works correctly
+ * 
+ * @author Tiffany Nguyen
+ * @author Matt Dole
+ * @author John Brady
+ * 
+ */
+
+
 public class PartTwoTest {
 
+    /**
+     * Code taken from Tiffany, Daniel, Mark, and Earnest's HW5 assignment.
+     * Creates a list of UshahidiIncidents
+     */
     public static UshahidiIncidentList ushahidiIncidentTester() {
 	UshahidiIncidentList incidents = new UshahidiIncidentList();
 	Random rand = new Random();

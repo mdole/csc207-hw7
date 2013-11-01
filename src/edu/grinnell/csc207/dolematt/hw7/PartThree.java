@@ -7,8 +7,8 @@ import edu.grinnell.glimmer.ushahidi.UshahidiClient;
 import edu.grinnell.glimmer.ushahidi.UshahidiIncident;
 
 /**
- * A program that reads a set of UshahidiIncidents into a list
- * and prints a summary of useful information
+ * A program that reads a set of UshahidiIncidents into a list and prints a
+ * summary of useful information
  * 
  * @author Tiffany Nguyen
  * @author Matt Dole
@@ -20,10 +20,9 @@ public class PartThree {
 
     /**
      * Finds and returns the earliest date in list
-     * @pre 
-     *     list has elements (???)
-     * @post
-     *     first is the earliest date in list
+     * 
+     * @param list
+     * @post first is the earliest date in list
      */
     private static Calendar earliest(DoublyLinkedList<UshahidiIncident> list)
 	    throws Exception {
@@ -33,18 +32,17 @@ public class PartThree {
 	while (list.hasNext(c)) {
 	    if (first.after(list.get(c).getDate())) {
 		first = list.get(c).getDate();
-	    } //if
+	    } // if
 	    list.advance(c);
-	} //while
+	} // while
 	return first;
-    } //earliest(DoublyLinkedList<UshahidiIncident>)
+    } // earliest(DoublyLinkedList<UshahidiIncident>)
 
     /**
      * Finds and returns the latest date in list
-     * @pre 
-     *     list has elements (???)
-     * @post
-     *     first is the latest date in list
+     * 
+     * @param list
+     * @post first is the latest date in list
      */
     private static Calendar latest(DoublyLinkedList<UshahidiIncident> list)
 	    throws Exception {
@@ -54,18 +52,17 @@ public class PartThree {
 	while (list.hasNext(c)) {
 	    if (last.before(list.get(c).getDate())) {
 		last = list.get(c).getDate();
-	    } //if
+	    } // if
 	    list.advance(c);
-	} //while
+	} // while
 	return last;
-    } //latest(DoublyLinkedList<UshahidiIncident>)
+    } // latest(DoublyLinkedList<UshahidiIncident>)
 
     /**
      * Finds and returns the lowest ID in list
-     * @pre 
-     *     list has elements (???)
-     * @post
-     *     low is the lowest ID in list
+     * 
+     * @param list
+     * @post low is the lowest ID in list
      */
     private static int lowId(DoublyLinkedList<UshahidiIncident> list)
 	    throws Exception {
@@ -75,12 +72,18 @@ public class PartThree {
 	while (list.hasNext(c)) {
 	    if (low > list.get(c).getId()) {
 		low = list.get(c).getId();
-	    } //if
+	    } // if
 	    list.advance(c);
-	} //while
+	} // while
 	return low;
-    } //lowID(DoublyLinkedList<UshahidiIncident>)
+    } // lowID(DoublyLinkedList<UshahidiIncident>)
 
+    /**
+     * Finds and returns the highest ID in list
+     * 
+     * @param list
+     * @post high is the highest ID in list
+     */
     private static int highId(DoublyLinkedList<UshahidiIncident> list)
 	    throws Exception {
 	DoublyLinkedListCursor<UshahidiIncident> c = (DoublyLinkedListCursor<UshahidiIncident>) list
@@ -89,12 +92,21 @@ public class PartThree {
 	while (list.hasNext(c)) {
 	    if (high < list.get(c).getId()) {
 		high = list.get(c).getId();
-	    } //if
+	    } // if
 	    list.advance(c);
-	} //while
+	} // while
 	return high;
-    } //highId(DoublyLinkedList<UshahidiIncident>)
+    } // highId(DoublyLinkedList<UshahidiIncident>)
 
+    /**
+     * Finds and returns the northernmost, southernmost, easternmost, and
+     * westernmost IDs in list
+     * 
+     * @param list
+     * @post directions is an array containing the northernmost, southernmost,
+     *       easternmost, and westernmost IDs in list
+     * @return directions, an array of IDs
+     */
     private static double[] directions(DoublyLinkedList<UshahidiIncident> list)
 	    throws Exception {
 	DoublyLinkedListCursor<UshahidiIncident> c = (DoublyLinkedListCursor<UshahidiIncident>) list
@@ -106,22 +118,29 @@ public class PartThree {
 	while (list.hasNext(c)) {
 	    if (north < list.get(c).getLocation().getLatitude()) {
 		north = list.get(c).getLocation().getLatitude();
-	    } //if
+	    } // if
 	    if (south > list.get(c).getLocation().getLatitude()) {
 		south = list.get(c).getLocation().getLatitude();
-	    } //if
+	    } // if
 	    if (east > list.get(c).getLocation().getLongitude()) {
 		east = list.get(c).getLocation().getLongitude();
-	    } //if
+	    } // if
 	    if (west < list.get(c).getLocation().getLongitude()) {
 		west = list.get(c).getLocation().getLongitude();
-	    } //if
+	    } // if
 	    list.advance(c);
-	} //while
+	} // while
 	double[] directions = { north, south, east, west };
 	return directions;
-    } //directions(DoublyLinkedList<UshahidiIncident>)
+    } // directions(DoublyLinkedList<UshahidiIncident>)
 
+    /**
+     * Prints the summary of useful information including the earliest and
+     * latest dates, lowest and highest IDs, and the the northernmost,
+     * southernmost, easternmost, and westernmost IDs in list.
+     * 
+     * @param main
+     */
     public static void summary(DoublyLinkedList<UshahidiIncident> main)
 	    throws Exception {
 
@@ -139,11 +158,12 @@ public class PartThree {
 	pen.println("  Southernnmost: " + directions(main)[1]);
 	pen.println("  Easternmost: " + directions(main)[2]);
 	pen.println("  Westernmost: " + directions(main)[3]);
-    } //summary(DoublyLinkedList<UshahidiIncident>)
+    } // summary(DoublyLinkedList<UshahidiIncident>)
 
+    //Run and test that our functions work properly.
     public static void main(String[] args) throws Exception {
 	UshahidiClient test = PartTwoTest.ushahidiIncidentTester();
 	DoublyLinkedList<UshahidiIncident> main = PartTwo.readIncidents(test);
 	summary(main);
-    } //main
-} //class PartThree
+    } // main
+} // class PartThree

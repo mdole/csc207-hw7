@@ -11,8 +11,7 @@ import java.util.Iterator;
  */
 
 /**
- * Lists have Cursor<T>s/iterators, which fall between elements (or before the
- * first element or after the last element).
+ * Lists have Cursor<T>s/iterators, which fall on elements
  */
 public interface ListOf<T> extends Iterable<T> {
     // Adding Elements

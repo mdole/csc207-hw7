@@ -1,18 +1,23 @@
 package edu.grinnell.csc207.dolematt.hw7;
 
-import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * Doubly linked lists class.
+ * Doubly linked lists class that creates a circularly doubly linked list
  * 
  * @author Tiffany Nguyen
  * @author Matt Dole
  * @author John Brady
+ * @author Samuel A. Rebelsky
  * 
- *         Citations: Code generously shared by Daniel, Earnest, and Mark after
- *         Matt failed. Samuel A. Rebelsky also said it was okay.
+ *     Citations: Code generously shared by Daniel, Earnest, and Mark after
+ *     Matt failed. Samuel A. Rebelsky also said it was okay.
+ * 
+ * @author Daniel Goldstein
+ * @author Earnest Wheeler
+ * @author Mark Lewis
+ * 
  */
 
 public class DoublyLinkedList<T> implements ListOf<T> {
@@ -331,7 +336,6 @@ public class DoublyLinkedList<T> implements ListOf<T> {
      *             Start is after end
      * 
      */
-    // user must check if the list is empty. assumes non-inclusive end.
     public ListOf<T> subList(Cursor<T> start, Cursor<T> end) throws Exception {
 	DoublyLinkedList<T> newlist = new DoublyLinkedList<T>();
 	DoublyLinkedListCursor<T> dllc1 = (DoublyLinkedListCursor<T>) start;

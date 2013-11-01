@@ -4,8 +4,18 @@ import java.util.Calendar;
 
 import edu.grinnell.glimmer.ushahidi.UshahidiClient;
 import edu.grinnell.glimmer.ushahidi.UshahidiIncident;
-import edu.grinnell.glimmer.ushahidi.UshahidiIncidentList;
 import edu.grinnell.glimmer.ushahidi.UshahidiLocation;
+
+/**
+ * A program that reads a set of UshahidiIncidents into a list, finds the
+ * average latitude and longitude of the incidents, and extracts all incidents
+ * that are within a radius of 15 degrees.
+ * 
+ * @author Tiffany Nguyen
+ * @author Matt Dole
+ * @author John Brady
+ * 
+ */
 
 public class PartTwo {
 
