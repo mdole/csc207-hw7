@@ -1,5 +1,6 @@
 package edu.grinnell.csc207.dolematt.hw7;
 
+import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -129,24 +130,30 @@ public class DoublyLinkedList<T> implements ListOf<T> {
     /**
      * Delete the element immediately after the iterator.
      * 
+     * @pre the list is not empty
      * @post The remaining elements retain their order.
      * @post The iterator is at the same position. The successor of the element
      *       immediately before the iterator is the successor of the now-deleted
      *       element.
+     * @throws Exception
+     *             if the list is empty
      */
     public void delete(Cursor<T> c) throws Exception {
 	DoublyLinkedListCursor<T> dllc = (DoublyLinkedListCursor<T>) c;
 	dllc.pos.prev.next = dllc.pos.next;
 	dllc.pos.next.prev = dllc.pos.prev;
+	if (this.front == this.dummy) {
+	    throw new Exception("You cannot delete from an empty list");
+	}
 	if (this.front == this.back) {
-	    if (this.front == this.dummy) {
-		throw new Exception("You cannot delete from an empty list");
-	    }
-	    //if it is a one element list, reset the list
+	    // if it is a one element list, reset the list
 	    this.dummy = new Node<T>(null);
 	    dllc.pos = this.dummy;
+	    this.front = this.dummy;
+	    this.back = this.dummy;
 	} else if (dllc.pos == this.front) {
 	    dllc.pos = dllc.pos.next;
+	    this.front = dllc.pos;
 	} else {
 	    dllc.pos = dllc.pos.prev;
 	} // if/else
@@ -217,7 +224,7 @@ public class DoublyLinkedList<T> implements ListOf<T> {
      * 
      * @pre it is valid and associated with this list.
      * @post returns the element at c.pos of type T
-     *
+     * 
      */
     public T get(Cursor<T> c) throws Exception {
 	DoublyLinkedListCursor<T> dllc = (DoublyLinkedListCursor<T>) c;

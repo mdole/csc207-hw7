@@ -1,5 +1,6 @@
 package edu.grinnell.csc207.dolematt.hw7;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
 import java.io.PrintWriter;
@@ -90,13 +91,21 @@ public class DoublyLinkedListTest {
 	list.delete(dllc1);
 	assertEquals("check deletion at the beginning of the list", true,
 		dllc1.pos == dllc2.pos);
+	dllc1 = (DoublyLinkedListCursor<Integer>) list.front();
 	i = 0;
-	while (i < 8) {
+	while (list.hasNext(dllc1)) {
 	    list.delete(dllc1);
 	    i++;
 	}
+	list.delete(dllc1);
 	dllc2.pos = list.dummy;
-	assertEquals(true, dllc1.pos == dllc2.pos);
+	assertEquals("delete one element list", true, dllc1.pos == dllc2.pos);
+	
+	try {
+	    list.delete(dllc1);
+	    fail("did not throw is empty exception");
+	} catch (Exception e) {
+	}
     }
 
     @Test
