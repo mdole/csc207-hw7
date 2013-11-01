@@ -59,8 +59,10 @@ public class DoublyLinkedList<T> implements ListOf<T> {
      * @throws Exception
      *             If there is no memory to expand the list.
      * 
-     * @post The cursor does not move. val is immediately after the cursor. The
-     *       element that previously followed the cursor follows val
+     * @post The cursor does not move. The previous element to the iterator
+     *       remains the same. val is immediately after the iterator. The
+     *       element that previously followed the iterator follows val And
+     *       writing postconditions is a PITN
      */
     public void insert(T val, Cursor<T> c) throws Exception {
 	DoublyLinkedListCursor<T> dllc = (DoublyLinkedListCursor<T>) c;
@@ -70,8 +72,8 @@ public class DoublyLinkedList<T> implements ListOf<T> {
 	    Node<T> newNode = new Node<T>(val);
 	    newNode.next = dllc.pos.next;
 	    newNode.prev = dllc.pos;
+	    dllc.pos.next.prev = newNode;
 	    dllc.pos.next = newNode;
-	    newNode.next.prev = newNode;
 	} // if/else
     } // insert(T, Cursor<T>)
 
@@ -81,6 +83,9 @@ public class DoublyLinkedList<T> implements ListOf<T> {
      * 
      * @throws Exception
      *             If there is no memory to expand the list.
+     * @post A new Node is created at the end of the list, with value val.
+     *       val.prev is the former end of the list, and val.next is the dummy
+     *       node
      */
     public void append(T val) throws Exception {
 	Node<T> n = new Node<T>(val);
@@ -88,6 +93,7 @@ public class DoublyLinkedList<T> implements ListOf<T> {
 	this.dummy.prev = n;
 	if (this.front == this.dummy) {
 	    this.front = n;
+	    this.dummy.next = n;
 	} else {
 	    this.back.next = n;
 	} // if/else
@@ -101,6 +107,9 @@ public class DoublyLinkedList<T> implements ListOf<T> {
      * 
      * @throws Exception
      *             If there is no memory to expand the list.
+     * @post A new Node is created at the beginning of the list, with value val.
+     *       val.prev is the former end of the list, and val.next is the dummy
+     *       node
      */
     public void prepend(T val) throws Exception {
 	Node<T> n = new Node<T>(val);
@@ -121,7 +130,7 @@ public class DoublyLinkedList<T> implements ListOf<T> {
      * Delete the element immediately after the iterator.
      * 
      * @post The remaining elements retain their order.
-     * @post The iterator is at the position The successor of the element
+     * @post The iterator is at the same position. The successor of the element
      *       immediately before the iterator is the successor of the now-deleted
      *       element.
      */
@@ -164,6 +173,8 @@ public class DoublyLinkedList<T> implements ListOf<T> {
      * Advance to the next position.
      * 
      * @pre The list has a next element.
+     * @post If the cursor starts at c.pos, the cursor is now positioned on
+     *       c.next.pos
      * @throws Exception
      *             If there is no next element.
      */
@@ -180,6 +191,8 @@ public class DoublyLinkedList<T> implements ListOf<T> {
      * Back up to the previous position.
      * 
      * @pre The list has a next element.
+     * @post @post If the cursor starts at c.pos, the cursor is now positioned
+     *       on c.prev.pos
      * @throws Exception
      *             If there is no next element.
      */
@@ -196,6 +209,7 @@ public class DoublyLinkedList<T> implements ListOf<T> {
      * Get the element under the Cursor<T>.
      * 
      * @pre it is valid and associated with this list.
+     * @post returns the element at c.pos of type T
      * @throws Exception
      *             If the preconditions are not met.
      */
@@ -206,6 +220,8 @@ public class DoublyLinkedList<T> implements ListOf<T> {
 
     /**
      * Get the element immediately before the Cursor<T>.
+     * 
+     * @pre c is valid and associated with the list.
      */
     public T getPrev(Cursor<T> c) throws Exception {
 	DoublyLinkedListCursor<T> dllc = (DoublyLinkedListCursor<T>) c;
@@ -341,16 +357,26 @@ public class DoublyLinkedList<T> implements ListOf<T> {
      * 
      * @pre cursors are associated with the list. If precondition is not met,
      *      then the method can do "whatever it wants"
+     * @return false if c1 and c2 are pointing at the same position at
+     *         initialization
      */
     public boolean precedes(Cursor<T> c1, Cursor<T> c2) throws Exception {
-	DoublyLinkedListCursor<T> dllc1 = (DoublyLinkedListCursor<T>) c1;
+	// Copy the original cursor to dllc1 so c1 is not moved
+	DoublyLinkedListCursor<T> dllc = (DoublyLinkedListCursor<T>) c1;
+	DoublyLinkedListCursor<T> dllc1 = new DoublyLinkedListCursor<T>(
+		dllc.pos);
 	DoublyLinkedListCursor<T> dllc2 = (DoublyLinkedListCursor<T>) c2;
+	//if c1 and c2 are pointing at the same position at initialization
+	if (dllc1.pos == dllc2.pos) {
+	    return false;
+	} //if
 	while (this.hasNext(dllc1)) {
 	    if (dllc1.pos == dllc2.pos) {
 		return true;
-	    }
+	    } //if
 	    this.advance(dllc1);
-	}
+	} //while
+
 	return false;
     } // precedes(Cursor<T>, Cursor<T>)
 

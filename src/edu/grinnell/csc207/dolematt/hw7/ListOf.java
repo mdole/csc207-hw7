@@ -28,8 +28,9 @@ public interface ListOf<T> extends Iterable<T> {
      *             If there is no memory to expand the list.
      * 
      * @post The previous element to the iterator remains the same. val is
-     *       immediately after the iterator The element that previously followed
-     *       the iterator follows val And writing postconditions is a PITN
+     *       immediately after the iterator. The element that previously
+     *       followed the iterator follows val And writing postconditions is a
+     *       PITN
      */
     public void insert(T val, Cursor<T> c) throws Exception;
 
@@ -65,7 +66,7 @@ public interface ListOf<T> extends Iterable<T> {
      * Delete the element immediately after the iterator.
      * 
      * @post The remaining elements retain their order.
-     * @post The iterator is at the position The successor of the element
+     * @post The iterator is at the same position. The successor of the element
      *       immediately before the iterator is the successor of the now-deleted
      *       element.
      */
@@ -79,7 +80,7 @@ public interface ListOf<T> extends Iterable<T> {
     public Iterator<T> iterator();
 
     /**
-     * Get an iterator right before the front of the list.
+     * Get an iterator on the front of the list.
      * 
      * @throws Exception
      *             If the list is empty.
@@ -90,6 +91,9 @@ public interface ListOf<T> extends Iterable<T> {
      * Advance to the next position.
      * 
      * @pre The list has a next element.
+     * @post If the cursor starts at val.pos, the cursor is now positioned on
+     *       val.next.pos
+     * 
      * @throws Exception
      *             If there is no next element.
      */
@@ -99,6 +103,8 @@ public interface ListOf<T> extends Iterable<T> {
      * Back up to the previous position.
      * 
      * @pre The list has a next element.
+     * @post If the cursor starts at val.pos, the cursor is now positioned on
+     *       val.prev.pos
      * @throws Exception
      *             If there is no next element.
      */
@@ -108,6 +114,7 @@ public interface ListOf<T> extends Iterable<T> {
      * Get the element under the Cursor<T>.
      * 
      * @pre it is valid and associated with this list.
+     * @post returns the element at c.pos of type T
      * @throws Exception
      *             If the preconditions are not met.
      */
@@ -115,13 +122,16 @@ public interface ListOf<T> extends Iterable<T> {
 
     /**
      * Get the element immediately before the Cursor<T>.
+     * 
+     * @pre c is valid and associated with the list.
+     * @pre
      */
     public T getPrev(Cursor<T> c) throws Exception;
 
     /**
      * Determine if it's safe to advance to the next position.
      * 
-     * @pre pos is valid and associated with the list.
+     * @pre c is valid and associated with the list.
      */
     public boolean hasNext(Cursor<T> c) throws Exception;
 
@@ -162,7 +172,8 @@ public interface ListOf<T> extends Iterable<T> {
      * @throws Exception
      *             If the iterators are invalid.
      */
-    public ListOf<T> subList(Cursor<T> start, Cursor<T> end) throws Exception;
+    public ListOf<T> subList(Cursor<T> start, Cursor<T> end)
+	    throws Exception;
 
     /**
      * Select all of the elements that meet a predicate.
