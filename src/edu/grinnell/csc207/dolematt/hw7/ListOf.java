@@ -104,7 +104,7 @@ public interface ListOf<T> extends Iterable<T> {
      * 
      * @pre The list has a next element.
      * @post If the cursor starts at val.pos, the cursor is now positioned on
-     *       val.prev.pos
+     *       c.prev.pos
      * @throws Exception
      *             If there is no next element.
      */
@@ -124,7 +124,9 @@ public interface ListOf<T> extends Iterable<T> {
      * Get the element immediately before the Cursor<T>.
      * 
      * @pre c is valid and associated with the list.
-     * @pre
+     * @return returns the element that precedes the position of the cursor
+     * @throws Exception
+     *             If the cursor is at the beginning of the list
      */
     public T getPrev(Cursor<T> c) throws Exception;
 
@@ -132,24 +134,31 @@ public interface ListOf<T> extends Iterable<T> {
      * Determine if it's safe to advance to the next position.
      * 
      * @pre c is valid and associated with the list.
+     * @return returns true if there is a subsequent element that is not dummy,
+     *         and false otherwise
+     * 
+     * 
      */
     public boolean hasNext(Cursor<T> c) throws Exception;
 
     /**
      * Determine if it's safe to retreat to the previous position.
      * 
-     * @pre pos is valid and associated with the list.
+     * @pre c is valid and associated with the list.
+     * @return returns true if there is a preceding element that is not dummy,
+     *         and false otherwise
+     * 
      */
     public boolean hasPrev(Cursor<T> c) throws Exception;
 
     // Other operations
 
     /**
-     * Swap the elements at the positions the corresopnd to it1 and it2.
+     * Swap the elements at the positions the correspond to c1 and c2.
      * 
-     * @pre Both it1 and it2 are valid and associated with this list. v1 =
-     *      get(it1), v2 = get(it2)
-     * @post it1 and it2 are unchanged. v1 = get(it2), v2 = get(it1)
+     * @pre Both c1 and c2 are valid and associated with this list. v1 =
+     *      get(c1), v2 = get(c2)
+     * @post c1 and c2 are unchanged. v1 = get(c2), v2 = get(c1)
      */
     public void swap(Cursor<T> c1, Cursor<T> c2) throws Exception;
 
@@ -157,31 +166,47 @@ public interface ListOf<T> extends Iterable<T> {
      * Search for a value that meets a predicate, moving the iterator to that
      * value.
      * 
+     * @pre cursors are associated with the list. If precondition is not met,
+     *      then the method can do "whatever it wants" -Sam
      * @return true, if the value was found
      * @return false, if the value was not found
      * 
-     * @post If the value is not found, the iterator has not moved.
+     * @post If the value is not found, the cursor has not moved.
      * @post IF the value is found, get(it) is value
      */
     public boolean search(Cursor<T> c, Predicate<T> pred) throws Exception;
 
     /**
-     * Grab a sublist. (Detailed discussion not included.)
+     * Grab a sublist.
      * 
-     * @pre Valid iterators. start precedes end.
+     * @pre start precedes end.
+     * @pre cursors are associated with the list. If precondition is not met,
+     *      then the method can do "whatever it wants"
      * @throws Exception
-     *             If the iterators are invalid.
+     *             Start is after end
+     * 
      */
     public ListOf<T> subList(Cursor<T> start, Cursor<T> end)
 	    throws Exception;
 
     /**
      * Select all of the elements that meet a predicate.
+     * 
+     * @pre Predicate must be able to test types as seen in the list
+     * @post every element in newlist when tested with the predicate returns
+     *       true
+     * @return returns a list consisting of only elements in pred that returned
+     *         a true Predicate
      */
     public ListOf<T> select(Predicate<T> pred) throws Exception;
 
     /**
      * Determine if one iterator precedes another iterator.
+     * 
+     * @pre cursors are associated with the list. If precondition is not met,
+     *      then the method can do "whatever it wants"
+     * @return false if c1 and c2 are pointing at the same position at
+     *         initialization
      */
     public boolean precedes(Cursor<T> c1, Cursor<T> c2) throws Exception;
 } // interface ListOf<T>

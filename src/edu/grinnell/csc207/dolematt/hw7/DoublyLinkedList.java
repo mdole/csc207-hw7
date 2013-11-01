@@ -210,8 +210,7 @@ public class DoublyLinkedList<T> implements ListOf<T> {
      * 
      * @pre it is valid and associated with this list.
      * @post returns the element at c.pos of type T
-     * @throws Exception
-     *             If the preconditions are not met.
+     *
      */
     public T get(Cursor<T> c) throws Exception {
 	DoublyLinkedListCursor<T> dllc = (DoublyLinkedListCursor<T>) c;
@@ -222,6 +221,9 @@ public class DoublyLinkedList<T> implements ListOf<T> {
      * Get the element immediately before the Cursor<T>.
      * 
      * @pre c is valid and associated with the list.
+     * @return returns the element that precedes the position of the cursor
+     * @throws Exception
+     *             If the cursor is at the beginning of the list
      */
     public T getPrev(Cursor<T> c) throws Exception {
 	DoublyLinkedListCursor<T> dllc = (DoublyLinkedListCursor<T>) c;
@@ -236,6 +238,9 @@ public class DoublyLinkedList<T> implements ListOf<T> {
      * Determine if it's safe to advance to the next position.
      * 
      * @pre c is valid and associated with the list.
+     * @return returns true if there is a subsequent element that is not dummy,
+     *         and false otherwise
+     * 
      */
     public boolean hasNext(Cursor<T> c) throws Exception {
 	DoublyLinkedListCursor<T> dllc = (DoublyLinkedListCursor<T>) c;
@@ -246,9 +251,9 @@ public class DoublyLinkedList<T> implements ListOf<T> {
      * Determine if it's safe to retreat to the previous position.
      * 
      * @pre c is valid and associated with the list.
+     * @return returns true if there is a preceding element that is not dummy,
+     *         and false otherwise
      * 
-     * @throws Exception
-     *             if c is not associated with the list
      */
     public boolean hasPrev(Cursor<T> c) throws Exception {
 	DoublyLinkedListCursor<T> dllc = (DoublyLinkedListCursor<T>) c;
@@ -335,6 +340,12 @@ public class DoublyLinkedList<T> implements ListOf<T> {
 
     /**
      * Select all of the elements that meet a predicate.
+     * 
+     * @pre Predicate must be able to test types as seen in the list
+     * @post every element in newlist when tested with the predicate returns
+     *       true
+     * @return returns a list consisting of only elements in pred that returned
+     *         a true Predicate
      */
     public ListOf<T> select(Predicate<T> pred) throws Exception {
 	DoublyLinkedList<T> newlist = new DoublyLinkedList<T>();
@@ -366,16 +377,16 @@ public class DoublyLinkedList<T> implements ListOf<T> {
 	DoublyLinkedListCursor<T> dllc1 = new DoublyLinkedListCursor<T>(
 		dllc.pos);
 	DoublyLinkedListCursor<T> dllc2 = (DoublyLinkedListCursor<T>) c2;
-	//if c1 and c2 are pointing at the same position at initialization
+	// if c1 and c2 are pointing at the same position at initialization
 	if (dllc1.pos == dllc2.pos) {
 	    return false;
-	} //if
+	} // if
 	while (this.hasNext(dllc1)) {
 	    if (dllc1.pos == dllc2.pos) {
 		return true;
-	    } //if
+	    } // if
 	    this.advance(dllc1);
-	} //while
+	} // while
 
 	return false;
     } // precedes(Cursor<T>, Cursor<T>)
