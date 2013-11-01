@@ -1,6 +1,8 @@
 package edu.grinnell.csc207.dolematt.hw7;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
+import java.io.PrintWriter;
 
 import org.junit.Test;
 
@@ -31,7 +33,7 @@ public class DoublyLinkedListTest {
     }
 
     @Test
-    public void testDelete() throws Exception {
+    public void testDeleteApend() throws Exception {
 	DoublyLinkedList<Integer> list = new DoublyLinkedList<Integer>();
 	int i = 0;
 	while (i < 10) {
@@ -44,6 +46,57 @@ public class DoublyLinkedListTest {
 		list.front.next);
 	list.delete(dllc1);
 	assertEquals(true, list.dummy.next == dllc2.pos);
+    }
+
+    @Test
+    public void testPrepend() throws Exception {
+	DoublyLinkedList<Integer> list = new DoublyLinkedList<Integer>();
+	Integer i = new Integer(10);
+	while (i > 0) {
+	    list.prepend(i);
+	    i--;
+	}
+	DoublyLinkedListCursor<Integer> dllc1 = new DoublyLinkedListCursor<Integer>(
+		list.front);
+	i = 1;
+	while (i < 10) {
+	    Integer x = new Integer(i);
+	    assertEquals(true, x.compareTo(dllc1.pos.val) == 0);
+	    list.advance(dllc1);
+	    i++;
+	}
+    }
+
+    PrintWriter pen = new PrintWriter(System.out, true);
+
+    @Test
+    public void testDelete() throws Exception {
+	DoublyLinkedList<Integer> list = new DoublyLinkedList<Integer>();
+	int i = 0;
+	while (i < 10) {
+	    list.append(i);
+	    i++;
+	}
+	DoublyLinkedListCursor<Integer> dllc1 = new DoublyLinkedListCursor<Integer>(
+		list.back);
+	DoublyLinkedListCursor<Integer> dllc2 = new DoublyLinkedListCursor<Integer>(
+		list.back.prev);
+	list.delete(dllc1);
+	assertEquals("check deletion at the end of the list", true,
+		dllc1.pos == dllc2.pos);
+	dllc1 = (DoublyLinkedListCursor<Integer>) list.front();
+	dllc2 = (DoublyLinkedListCursor<Integer>) list.front();
+	list.advance(dllc2);
+	list.delete(dllc1);
+	assertEquals("check deletion at the beginning of the list", true,
+		dllc1.pos == dllc2.pos);
+	i = 0;
+	while (i < 8) {
+	    list.delete(dllc1);
+	    i++;
+	}
+	dllc2.pos = list.dummy;
+	assertEquals(true, dllc1.pos == dllc2.pos);
     }
 
     @Test

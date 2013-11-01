@@ -138,7 +138,14 @@ public class DoublyLinkedList<T> implements ListOf<T> {
 	DoublyLinkedListCursor<T> dllc = (DoublyLinkedListCursor<T>) c;
 	dllc.pos.prev.next = dllc.pos.next;
 	dllc.pos.next.prev = dllc.pos.prev;
-	if (this.dummy == this.front) {
+	if (this.front == this.back) {
+	    if (this.front == this.dummy) {
+		throw new Exception("You cannot delete from an empty list");
+	    }
+	    //if it is a one element list, reset the list
+	    this.dummy = new Node<T>(null);
+	    dllc.pos = this.dummy;
+	} else if (dllc.pos == this.front) {
 	    dllc.pos = dllc.pos.next;
 	} else {
 	    dllc.pos = dllc.pos.prev;
@@ -313,8 +320,7 @@ public class DoublyLinkedList<T> implements ListOf<T> {
      * 
      */
     // user must check if the list is empty. assumes non-inclusive end.
-    public ListOf<T> subList(Cursor<T> start, Cursor<T> end)
-	    throws Exception {
+    public ListOf<T> subList(Cursor<T> start, Cursor<T> end) throws Exception {
 	DoublyLinkedList<T> newlist = new DoublyLinkedList<T>();
 	DoublyLinkedListCursor<T> dllc1 = (DoublyLinkedListCursor<T>) start;
 	DoublyLinkedListCursor<T> dllc2 = (DoublyLinkedListCursor<T>) end;
@@ -326,8 +332,7 @@ public class DoublyLinkedList<T> implements ListOf<T> {
 		newlist.append(dllc3.pos.val);
 		this.advance(dllc3);
 	    } else {
-		throw new Exception(
-			"What are you doing? Start is after end");
+		throw new Exception("What are you doing? Start is after end");
 	    }
 	}
 	return newlist;
@@ -366,16 +371,16 @@ public class DoublyLinkedList<T> implements ListOf<T> {
 	DoublyLinkedListCursor<T> dllc1 = new DoublyLinkedListCursor<T>(
 		dllc.pos);
 	DoublyLinkedListCursor<T> dllc2 = (DoublyLinkedListCursor<T>) c2;
-	//if c1 and c2 are pointing at the same position at initialization
+	// if c1 and c2 are pointing at the same position at initialization
 	if (dllc1.pos == dllc2.pos) {
 	    return false;
-	} //if
+	} // if
 	while (this.hasNext(dllc1)) {
 	    if (dllc1.pos == dllc2.pos) {
 		return true;
-	    } //if
+	    } // if
 	    this.advance(dllc1);
-	} //while
+	} // while
 
 	return false;
     } // precedes(Cursor<T>, Cursor<T>)

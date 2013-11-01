@@ -27,10 +27,10 @@ public interface ListOf<T> extends Iterable<T> {
      * @throws Exception
      *             If there is no memory to expand the list.
      * 
-     * @post The previous element to the iterator remains the same. val is
-     *       immediately after the iterator. The element that previously
-     *       followed the iterator follows val And writing postconditions is a
-     *       PITN
+     * @post The cursor does not move. The previous element to the iterator
+     *       remains the same. val is immediately after the iterator. The
+     *       element that previously followed the iterator follows val And
+     *       writing postconditions is a PITN
      */
     public void insert(T val, Cursor<T> c) throws Exception;
 
@@ -172,8 +172,7 @@ public interface ListOf<T> extends Iterable<T> {
      * @throws Exception
      *             If the iterators are invalid.
      */
-    public ListOf<T> subList(Cursor<T> start, Cursor<T> end)
-	    throws Exception;
+    public ListOf<T> subList(Cursor<T> start, Cursor<T> end) throws Exception;
 
     /**
      * Select all of the elements that meet a predicate.
