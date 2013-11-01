@@ -11,12 +11,15 @@ import java.util.NoSuchElementException;
  * @author John Brady
  * @author Samuel A. Rebelsky
  * 
- *     Citations: Code generously shared by Daniel, Earnest, and Mark after
- *     Matt failed. Samuel A. Rebelsky also said it was okay.
+ *         Citations: Code generously shared by Daniel, Earnest, and Mark after
+ *         Matt failed. Samuel A. Rebelsky also said it was okay.
  * 
  * @author Daniel Goldstein
  * @author Earnest Wheeler
  * @author Mark Lewis
+ * 
+ *      Out of memory exception: http://stackoverflow.com/questions
+ *         /1692230/is-it-possible-to-catch-out-of-memory-exception-in-java
  * 
  */
 
@@ -71,16 +74,21 @@ public class DoublyLinkedList<T> implements ListOf<T> {
      *       writing postconditions is a PITN
      */
     public void insert(T val, Cursor<T> c) throws Exception {
-	DoublyLinkedListCursor<T> dllc = (DoublyLinkedListCursor<T>) c;
-	if (dllc.pos == this.back || this.dummy.next == null) {
-	    this.append(val);
-	} else {
-	    Node<T> newNode = new Node<T>(val);
-	    newNode.next = dllc.pos.next;
-	    newNode.prev = dllc.pos;
-	    dllc.pos.next.prev = newNode;
-	    dllc.pos.next = newNode;
-	} // if/else
+	try {
+	    DoublyLinkedListCursor<T> dllc = (DoublyLinkedListCursor<T>) c;
+	    if (dllc.pos == this.back || this.dummy.next == null) {
+		this.append(val);
+	    } else {
+		Node<T> newNode = new Node<T>(val);
+		newNode.next = dllc.pos.next;
+		newNode.prev = dllc.pos;
+		dllc.pos.next.prev = newNode;
+		dllc.pos.next = newNode;
+	    } // if/else
+
+	} catch (OutOfMemoryError e) {
+	    throw new Exception("No more memory");
+	}
     } // insert(T, Cursor<T>)
 
     /**
@@ -94,17 +102,21 @@ public class DoublyLinkedList<T> implements ListOf<T> {
      *       node
      */
     public void append(T val) throws Exception {
-	Node<T> n = new Node<T>(val);
-	n.next = this.dummy;
-	this.dummy.prev = n;
-	if (this.front == this.dummy) {
-	    this.front = n;
-	    this.dummy.next = n;
-	} else {
-	    this.back.next = n;
-	} // if/else
-	n.prev = this.back;
-	this.back = n;
+	try {
+	    Node<T> n = new Node<T>(val);
+	    n.next = this.dummy;
+	    this.dummy.prev = n;
+	    if (this.front == this.dummy) {
+		this.front = n;
+		this.dummy.next = n;
+	    } else {
+		this.back.next = n;
+	    } // if/else
+	    n.prev = this.back;
+	    this.back = n;
+	} catch (OutOfMemoryError e) {
+	    throw new Exception("No more memory");
+	}
     } // append(T)
 
     /**
@@ -118,17 +130,22 @@ public class DoublyLinkedList<T> implements ListOf<T> {
      *       node
      */
     public void prepend(T val) throws Exception {
-	Node<T> n = new Node<T>(val);
-	this.dummy.next = n;
-	n.prev = this.dummy;
-	if (this.dummy == this.front) {
-	    this.front = n;
-	    this.back = this.front;
-	} else {
-	    n.next = this.front;
-	    this.front.prev = n;
-	    this.front = n;
-	} // if/else
+	try {
+	    Node<T> n = new Node<T>(val);
+	    this.dummy.next = n;
+	    n.prev = this.dummy;
+	    if (this.dummy == this.front) {
+		this.front = n;
+		this.back = this.front;
+	    } else {
+		n.next = this.front;
+		this.front.prev = n;
+		this.front = n;
+	    } // if/else
+
+	} catch (OutOfMemoryError e) {
+	    throw new Exception("No more memory");
+	}
     } // prepend(T)
 
     // Removing Elements
